@@ -86,6 +86,8 @@ pre-commit:
       run: timeout ${LEFTHOOK_GIT_NO_LOCAL_PATHS_TIMEOUT:-30} lefthook-git-no-local-paths {staged_files}
     markdownlint:
       glob: "*.md"
+      env:
+        LEFTHOOK_MARKDOWNLINT_CONFIG: ".setting/.markdownlint.yml"
       run: timeout ${LEFTHOOK_MARKDOWNLINT_TIMEOUT:-30} lefthook-markdownlint {staged_files}
     markdownlint-agentic:
       glob: "*.md"
@@ -118,6 +120,8 @@ pre-push:
       run: timeout ${LEFTHOOK_GIT_NO_LOCAL_PATHS_TIMEOUT:-30} lefthook-git-no-local-paths {push_files}
     markdownlint:
       glob: "*.md"
+      env:
+        LEFTHOOK_MARKDOWNLINT_CONFIG: ".setting/.markdownlint.yml"
       run: timeout ${LEFTHOOK_MARKDOWNLINT_TIMEOUT:-30} lefthook-markdownlint {push_files}
     markdownlint-agentic:
       glob: "*.md"

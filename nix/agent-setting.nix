@@ -10,5 +10,6 @@ set-and-setting.lib.mkSetting {
   gitignore = [
     "nix"
     "claude"
+    "setting"
   ];
 }
