@@ -9,6 +9,7 @@
       pkgs.statix
       pkgs.deadnix
       pkgs.shellcheck
+      pkgs.editorconfig-checker
     ];
 
     # Install git hooks on first shell entry (idempotent).

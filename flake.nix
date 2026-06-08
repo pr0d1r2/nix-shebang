@@ -26,10 +26,16 @@
         let
           pkgs = nixpkgs.legacyPackages.${system};
           agentSet = import ./nix/agent-set.nix { inherit pkgs set-and-setting; };
+          agentSetting = import ./nix/agent-setting.nix { inherit pkgs set-and-setting; };
         in
         {
           packages = {
             agent-set = agentSet;
+            agent-setting = agentSetting;
+            setting-drift = import ./nix/setting-drift.nix {
+              inherit pkgs set-and-setting;
+              settingSet = agentSetting;
+            };
           };
           devShells = import ./nix/devshells.nix {
             inherit pkgs;

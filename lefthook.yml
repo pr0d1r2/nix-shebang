@@ -17,9 +17,14 @@ pre-commit:
     shellcheck:
       glob: "**/*.sh"
       run: shellcheck {staged_files}
+    editorconfig:
+      run: editorconfig-checker {staged_files}
     nix-unit:
       glob: "nix/**/*.nix"
       run: nix-unit --flake .#tests
+    setting-drift:
+      glob: "{.editorconfig,.gitattributes,.gitignore}"
+      run: nix build .#setting-drift --no-link
 
 pre-push:
   parallel: true
@@ -36,6 +41,10 @@ pre-push:
     shellcheck:
       glob: "**/*.sh"
       run: shellcheck {all_files}
+    editorconfig:
+      run: editorconfig-checker {all_files}
     nix-unit:
       glob: "nix/**/*.nix"
       run: nix-unit --flake .#tests
+    setting-drift:
+      run: nix build .#setting-drift --no-link
