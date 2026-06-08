@@ -4,7 +4,7 @@ let
   inherit (nixpkgs) lib;
 in
 {
-  strip = import ../tests/unit/strip.nix { inherit lib; };
-  parse = import ../tests/unit/parse.nix { inherit lib; };
-  wrap = import ../tests/unit/wrap.nix { inherit lib; };
+  strip = import ./tests/unit/strip.nix { inherit lib; };
+  parse = import ./tests/unit/parse.nix { inherit lib; };
+  wrap = import ./tests/unit/wrap.nix { inherit lib; };
 }
