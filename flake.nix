@@ -1,5 +1,5 @@
 {
-  description = "Nix library for shebang operations — strip, parse, wrap shell fragments into derivations";
+  description = "Nix library for shebang operations -- strip, parse, wrap shell fragments into derivations";
 
   inputs = {
     nixpkgs-lock.url = "github:pr0d1r2/nixpkgs-lock";
@@ -40,6 +40,7 @@
           devShells = import ./nix/devshells.nix {
             inherit pkgs;
             nix-unit = nix-unit.packages.${system}.default;
+            lefthookShell = set-and-setting.devShells.${system}.ci;
           };
         };
     in

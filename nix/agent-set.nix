@@ -1,6 +1,6 @@
 # Skill set built from set-and-setting, arranged into the layout Claude's
 # @-imports expect: set.md at the root, set/ holding skills + concepts (so
-# set.md's `@./set/...` lines resolve). Pure — linkFarm symlinks into the
+# set.md's `@./set/...` lines resolve). Pure -- linkFarm symlinks into the
 # store, out-linked into gitignored .claude/ by .envrc. No copy, no shell.
 { pkgs, set-and-setting }:
 let

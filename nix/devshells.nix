@@ -1,15 +1,18 @@
-# devShells output. Tooling for tests, formatting, and lint hooks.
-{ pkgs, nix-unit }:
+# devShells output. Lefthook wrapper binaries come from set-and-setting's ci
+# shell (inputsFrom) -- the same source the remote lefthook.yml expects. Local
+# extras: nix-unit (test runner, no remote) + nixfmt (manual formatting).
+{
+  pkgs,
+  nix-unit,
+  lefthookShell,
+}:
 {
   default = pkgs.mkShell {
+    inputsFrom = [ lefthookShell ];
+
     packages = [
       nix-unit
       pkgs.nixfmt
-      pkgs.lefthook
-      pkgs.statix
-      pkgs.deadnix
-      pkgs.shellcheck
-      pkgs.editorconfig-checker
     ];
 
     # Install git hooks on first shell entry (idempotent).
