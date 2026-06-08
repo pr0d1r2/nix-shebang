@@ -1,6 +1,6 @@
 { lib }:
 let
-  strip = import ../../../lib/strip.nix { inherit lib; };
+  strip = import ../../lib/strip.nix { inherit lib; };
 in
 {
   testStripRemovesBashShebang = {

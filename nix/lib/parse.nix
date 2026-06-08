@@ -1,39 +1,56 @@
 { lib }:
 let
-  parseShebang = line:
+  parseShebang =
+    line:
     let
       withoutPrefix = lib.removePrefix "#!" line;
       parts = lib.splitString " " (lib.trim withoutPrefix);
       interpreter = builtins.head parts;
       args = builtins.tail parts;
     in
-    if lib.hasPrefix "#!" line then {
-      inherit interpreter args;
-      isEnv = interpreter == "/usr/bin/env";
-      resolvedInterpreter =
-        if interpreter == "/usr/bin/env" && args != [ ] then builtins.head args else interpreter;
-    } else null;
+    if lib.hasPrefix "#!" line then
+      {
+        inherit interpreter args;
+        isEnv = interpreter == "/usr/bin/env";
+        resolvedInterpreter =
+          if interpreter == "/usr/bin/env" && args != [ ] then builtins.head args else interpreter;
+      }
+    else
+      null;
 in
 {
-  parse = text:
+  parse =
+    text:
     let
       first = builtins.head (lib.splitString "\n" text);
     in
     parseShebang first;
 
-  isBash = text:
+  isBash =
+    text:
     let
       parsed = parseShebang (builtins.head (lib.splitString "\n" text));
     in
-    parsed != null && builtins.elem parsed.resolvedInterpreter [ "bash" "/bin/bash" "/usr/bin/bash" ];
+    parsed != null
+    && builtins.elem parsed.resolvedInterpreter [
+      "bash"
+      "/bin/bash"
+      "/usr/bin/bash"
+    ];
 
-  isSh = text:
+  isSh =
+    text:
     let
       parsed = parseShebang (builtins.head (lib.splitString "\n" text));
     in
-    parsed != null && builtins.elem parsed.resolvedInterpreter [ "sh" "/bin/sh" ];
+    parsed != null
+    && builtins.elem parsed.resolvedInterpreter [
+      "sh"
+      "/bin/sh"
+    ];
 
-  isShellScript = text:
+  isShellScript =
+    text:
     let
       parsed = parseShebang (builtins.head (lib.splitString "\n" text));
     in

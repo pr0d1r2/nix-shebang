@@ -1,6 +1,6 @@
 { lib }:
 let
-  parse = import ../../../lib/parse.nix { inherit lib; };
+  parse = import ../../lib/parse.nix { inherit lib; };
 in
 {
   testParseExtractsEnvBashShebang = {

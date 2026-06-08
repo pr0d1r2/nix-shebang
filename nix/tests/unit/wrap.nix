@@ -1,6 +1,6 @@
 { lib }:
 let
-  wrap = import ../../../lib/wrap.nix { inherit lib; };
+  wrap = import ../../lib/wrap.nix { inherit lib; };
 in
 {
   testToShellScriptIsFunction = {

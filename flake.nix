@@ -38,7 +38,7 @@
         };
     in
     {
-      lib = import ./nix/lib.nix { inherit nixpkgs; };
+      lib = import ./nix/lib { inherit (nixpkgs) lib; };
       tests = import ./nix/tests.nix { inherit nixpkgs; };
 
       packages = forAllSystems (system: (perSystem system).packages);

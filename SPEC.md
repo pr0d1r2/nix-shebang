@@ -9,7 +9,7 @@ Pure Nix library for shebang operations -- strip, parse, wrap shell fragments in
 - C1: Pure Nix only -- no compiled code, no external deps beyond nixpkgs
 - C2: Pin nixpkgs via nixpkgs-lock (nixos-25.11)
 - C3: nix-unit for all lib functions, wired into `nix flake check`
-- C4: 1-to-1 test coverage: every `lib/*.nix` has matching `tests/unit/*.nix`
+- C4: 1-to-1 test coverage: every `nix/lib/*.nix` has matching `nix/tests/unit/*.nix`
 - C5: CI on three platforms: x86_64-linux, aarch64-linux, aarch64-darwin
 - C6: Cache to cachix pr0d1r2.cachix.org
 - C7: MIT license
@@ -78,7 +78,7 @@ in
 
 ## S.V Invariants
 
-- V1: Every `lib/*.nix` has matching `tests/unit/*.nix`
+- V1: Every `nix/lib/*.nix` has matching `nix/tests/unit/*.nix`
 - V2: `nix flake check` passes on all three platforms
 - V3: `strip` is universal -- works with any shebang (bash, sh, python, perl, etc.)
 - V4: `strip` preserves text without shebang unchanged
@@ -91,13 +91,13 @@ in
 
 | id | st | desc | cites |
 |----|----|------|-------|
-| T1 | x | lib/strip.nix: strip, stripStrict, readWithout, readWithoutStrict, has, get | C1,C9,V3,V4,V5 |
-| T2 | x | lib/parse.nix: parse, isBash, isSh, isShellScript | C1,C9,V7 |
-| T3 | x | lib/wrap.nix: toShellScript, toShellApplication, toTextFile | C1,I.lib |
-| T4 | x | lib/default.nix: unified API entry point | I.lib |
-| T5 | x | tests/unit/strip.nix: 13 tests | C3,C4,V1,V8 |
-| T6 | x | tests/unit/parse.nix: 13 tests | C3,C4,V1,V8 |
-| T7 | x | tests/unit/wrap.nix: 3 tests | C3,C4,V1,V8 |
+| T1 | x | nix/lib/strip.nix: strip, stripStrict, readWithout, readWithoutStrict, has, get | C1,C9,V3,V4,V5 |
+| T2 | x | nix/lib/parse.nix: parse, isBash, isSh, isShellScript | C1,C9,V7 |
+| T3 | x | nix/lib/wrap.nix: toShellScript, toShellApplication, toTextFile | C1,I.lib |
+| T4 | x | nix/lib/default.nix: unified API entry point | I.lib |
+| T5 | x | nix/tests/unit/strip.nix: 13 tests | C3,C4,V1,V8 |
+| T6 | x | nix/tests/unit/parse.nix: 13 tests | C3,C4,V1,V8 |
+| T7 | x | nix/tests/unit/wrap.nix: 3 tests | C3,C4,V1,V8 |
 | T8 | x | flake.nix: lib output, checks, devShell, nixpkgs-lock | C2,C5,I.checks,I.dev |
 | T9 | x | CI: GitHub Actions matrix (linux, linux-arm, macos) + cachix | C5,C6 |
 | T10 | . | Create GitHub repo (pr0d1r2/nix-shebang) | C7 |

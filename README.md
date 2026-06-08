@@ -83,7 +83,7 @@ nix flake check      # run all unit tests on this platform
 ```
 
 Tests use [nix-unit](https://github.com/nix-community/nix-unit) with 1-to-1
-coverage: every `lib/*.nix` has a matching `tests/unit/*.nix`. See
+coverage: every `nix/lib/*.nix` has a matching `nix/tests/unit/*.nix`. See
 [SPEC.md](SPEC.md) for the full specification.
 
 ## License

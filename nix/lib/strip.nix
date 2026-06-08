@@ -1,6 +1,7 @@
 { lib }:
 let
-  strip = text:
+  strip =
+    text:
     let
       lines = lib.splitString "\n" text;
       first = builtins.head lines;
@@ -8,7 +9,8 @@ let
     in
     if lib.hasPrefix "#!" first then lib.concatStringsSep "\n" rest else text;
 
-  stripStrict = text:
+  stripStrict =
+    text:
     let
       lines = lib.splitString "\n" text;
       first = builtins.head lines;
@@ -27,7 +29,8 @@ in
   readWithout = path: strip (builtins.readFile path);
   readWithoutStrict = path: stripStrict (builtins.readFile path);
   has = text: lib.hasPrefix "#!" text;
-  get = text:
+  get =
+    text:
     let
       lines = lib.splitString "\n" text;
       first = builtins.head lines;

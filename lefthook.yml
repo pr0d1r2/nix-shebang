@@ -18,7 +18,7 @@ pre-commit:
       glob: "**/*.sh"
       run: shellcheck {staged_files}
     nix-unit:
-      glob: "{lib,nix}/**/*.nix"
+      glob: "nix/**/*.nix"
       run: nix-unit --flake .#tests
 
 pre-push:
@@ -37,5 +37,5 @@ pre-push:
       glob: "**/*.sh"
       run: shellcheck {all_files}
     nix-unit:
-      glob: "{lib,nix}/**/*.nix"
+      glob: "nix/**/*.nix"
       run: nix-unit --flake .#tests
