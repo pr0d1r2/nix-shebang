@@ -1,18 +1,7 @@
 output:
   - failure
 
-# Skill set is materialized on git events, not shell entry — keeps .claude/
-# fresh after checkout/merge without copying on every `nix develop`.
-post-checkout:
-  commands:
-    sync-skills:
-      run: nix run .#skills
-
-post-merge:
-  commands:
-    sync-skills:
-      run: nix run .#skills
-
+# Skills are materialized by direnv (.envrc out-link), not git hooks.
 pre-commit:
   parallel: true
   commands:
@@ -29,7 +18,7 @@ pre-commit:
       glob: "**/*.sh"
       run: shellcheck {staged_files}
     nix-unit:
-      glob: "{lib,tests,nix}/**/*.nix"
+      glob: "{lib,nix}/**/*.nix"
       run: nix-unit --flake .#tests
 
 pre-push:
@@ -48,5 +37,5 @@ pre-push:
       glob: "**/*.sh"
       run: shellcheck {all_files}
     nix-unit:
-      glob: "{lib,tests,nix}/**/*.nix"
+      glob: "{lib,nix}/**/*.nix"
       run: nix-unit --flake .#tests

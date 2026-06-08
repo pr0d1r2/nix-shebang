@@ -31,7 +31,6 @@
           packages = {
             agent-set = agentSet;
           };
-          apps = import ./nix/apps.nix { inherit pkgs agentSet; };
           devShells = import ./nix/devshells.nix {
             inherit pkgs;
             nix-unit = nix-unit.packages.${system}.default;
@@ -43,7 +42,6 @@
       tests = import ./nix/tests.nix { inherit nixpkgs; };
 
       packages = forAllSystems (system: (perSystem system).packages);
-      apps = forAllSystems (system: (perSystem system).apps);
       devShells = forAllSystems (system: (perSystem system).devShells);
     };
 }
