@@ -95,7 +95,14 @@ pre-commit:
       run: timeout ${LEFTHOOK_MARKDOWNLINT_AGENTIC_TIMEOUT:-30} lefthook-markdownlint-agentic {staged_files}
     yamllint:
       glob: "*.{yml,yaml}"
+      env:
+        LEFTHOOK_YAMLLINT_CONFIG: ".setting/.yamllint.yml"
       run: timeout ${LEFTHOOK_YAMLLINT_TIMEOUT:-30} lefthook-yamllint {staged_files}
+    # Override the self-wired file-size remote to read its limits from .setting.
+    file-size-check:
+      env:
+        LEFTHOOK_FILE_SIZE_CONFIG: ".setting/config/lefthook/file_size_limits.yml"
+      run: timeout ${LEFTHOOK_FILE_SIZE_CHECK_TIMEOUT:-30} lefthook-file-size-check {staged_files}
     nix-flake-eval:
       glob: "*.nix"
       env:
@@ -129,7 +136,13 @@ pre-push:
       run: timeout ${LEFTHOOK_MARKDOWNLINT_AGENTIC_TIMEOUT:-30} lefthook-markdownlint-agentic {push_files}
     yamllint:
       glob: "*.{yml,yaml}"
+      env:
+        LEFTHOOK_YAMLLINT_CONFIG: ".setting/.yamllint.yml"
       run: timeout ${LEFTHOOK_YAMLLINT_TIMEOUT:-30} lefthook-yamllint {push_files}
+    file-size-check:
+      env:
+        LEFTHOOK_FILE_SIZE_CONFIG: ".setting/config/lefthook/file_size_limits.yml"
+      run: timeout ${LEFTHOOK_FILE_SIZE_CHECK_TIMEOUT:-30} lefthook-file-size-check {push_files}
     nix-flake-eval:
       glob: "*.nix"
       env:
