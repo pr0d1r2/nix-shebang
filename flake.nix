@@ -5,6 +5,10 @@
     nixpkgs-lock.url = "github:pr0d1r2/nixpkgs-lock";
     nixpkgs.follows = "nixpkgs-lock/nixpkgs";
     nix-unit.url = "github:nix-community/nix-unit";
+    set-and-setting = {
+      url = "github:pr0d1r2/set-and-setting";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -13,6 +17,7 @@
       nixpkgs,
       nixpkgs-lock,
       nix-unit,
+      set-and-setting,
     }:
     let
       supportedSystems = [
@@ -43,15 +48,25 @@
         }
       );
 
-      tests = forAllSystems (
+      packages = forAllSystems (
         system:
         let
-          inherit (nixpkgs) lib;
+          pkgs = nixpkgs.legacyPackages.${system};
         in
         {
-          strip = import ./tests/unit/strip.nix { inherit lib; };
-          parse = import ./tests/unit/parse.nix { inherit lib; };
-          wrap = import ./tests/unit/wrap.nix { inherit lib; };
+          # Declarative skill set. Auto-synced into gitignored .claude/ by the
+          # default devShell shellHook — no manual sync-set needed.
+          agent-set = set-and-setting.lib.mkSet {
+            inherit pkgs;
+            categories = [
+              "opensource"
+              "nix"
+              "ci"
+              "lefthook"
+              "git"
+              "test"
+            ];
+          };
         }
       );
 
@@ -59,6 +74,7 @@
         system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
+          agentSet = self.packages.${system}.agent-set;
         in
         {
           default = pkgs.mkShell {
@@ -66,6 +82,19 @@
               nix-unit.packages.${system}.default
               pkgs.nixfmt
             ];
+
+            # Auto-install skills into gitignored .claude/ on shell entry.
+            # agentSet is a pure store path (cached) — this is a copy, not a build.
+            # Layout: set.md sits beside set/ so its `@./set/...` imports resolve.
+            shellHook = ''
+              dst=.claude/skills
+              mkdir -p "$dst/set"
+              rm -rf "$dst/set/skills" "$dst/set/concepts" "$dst/set.md"
+              cp "${agentSet}/set.md" "$dst/set.md"
+              cp -r "${agentSet}/skills" "$dst/set/skills"
+              cp -r "${agentSet}/concepts" "$dst/set/concepts"
+              chmod -R u+w "$dst"
+            '';
           };
         }
       );
