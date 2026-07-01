@@ -24,5 +24,6 @@ jobs:
         with:
           name: pr0d1r2
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          skipPush: ${{ github.event_name == 'pull_request' }}
       - run: nix develop -c nix-unit --flake .#tests
       - run: nix flake check --no-build
