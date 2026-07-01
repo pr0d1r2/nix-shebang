@@ -43,6 +43,11 @@ in
     expected = "echo hello\n";
   };
 
+  testStripStrictHandlesSingleLineShebang = {
+    expr = strip.stripStrict "#!/bin/bash";
+    expected = "";
+  };
+
   testStripStrictPreservesTextWithoutShebang = {
     expr = strip.stripStrict "echo hello";
     expected = "echo hello";

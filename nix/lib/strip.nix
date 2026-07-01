@@ -17,7 +17,7 @@ let
       second = builtins.head (builtins.tail lines);
       rest = builtins.tail (builtins.tail lines);
       afterShebang =
-        if second == "set -euo pipefail" then
+        if builtins.tail lines != [ ] && second == "set -euo pipefail" then
           lib.concatStringsSep "\n" rest
         else
           lib.concatStringsSep "\n" (builtins.tail lines);
