@@ -96,7 +96,7 @@ in
 | T3 | x | nix/lib/wrap.nix: toShellScript, toShellApplication, toTextFile | C1,I.lib |
 | T4 | x | nix/lib/default.nix: unified API entry point | I.lib |
 | T5 | x | nix/tests/unit/strip.nix: 14 tests | C3,C4,V1,V8 |
-| T6 | x | nix/tests/unit/parse.nix: 15 tests | C3,C4,V1,V8 |
+| T6 | x | nix/tests/unit/parse.nix: 17 tests | C3,C4,V1,V8 |
 | T7 | x | nix/tests/unit/wrap.nix: 3 tests | C3,C4,V1,V8 |
 | T8 | x | flake.nix: lib output, checks, devShell, nixpkgs-lock | C2,C5,I.checks,I.dev |
 | T9 | x | CI: GitHub Actions matrix (linux, linux-arm, macos) + cachix | C5,C6 |
