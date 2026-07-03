@@ -58,8 +58,18 @@ in
     expected = false;
   };
 
+  testIsShTrueForEnvSh = {
+    expr = parse.isSh "#!/usr/bin/env sh\necho hello";
+    expected = true;
+  };
+
   testIsShTrueForBinSh = {
     expr = parse.isSh "#!/bin/sh\necho hello";
+    expected = true;
+  };
+
+  testIsShTrueForUsrBinSh = {
+    expr = parse.isSh "#!/usr/bin/sh\necho hello";
     expected = true;
   };
 
@@ -75,6 +85,16 @@ in
 
   testIsShellScriptTrueForSh = {
     expr = parse.isShellScript "#!/bin/sh\necho hello";
+    expected = true;
+  };
+
+  testIsShellScriptTrueForEnvSh = {
+    expr = parse.isShellScript "#!/usr/bin/env sh\necho hello";
+    expected = true;
+  };
+
+  testIsShellScriptTrueForUsrBinSh = {
+    expr = parse.isShellScript "#!/usr/bin/sh\necho hello";
     expected = true;
   };
 

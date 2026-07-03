@@ -6,6 +6,11 @@ follow semantic versioning.
 
 ## Unreleased
 
+### Fixed
+
+- `isSh` and `isShellScript` now recognize `/usr/bin/sh` (was missing
+  while `isBash` already included `/usr/bin/bash`)
+
 ### Added
 
 - `strip`, `stripStrict`, `readWithout`, `readWithoutStrict`, `has`,
