@@ -47,6 +47,7 @@ in
     && builtins.elem parsed.resolvedInterpreter [
       "sh"
       "/bin/sh"
+      "/usr/bin/sh"
     ];
 
   isShellScript =
@@ -61,5 +62,6 @@ in
       "/usr/bin/bash"
       "sh"
       "/bin/sh"
+      "/usr/bin/sh"
     ];
 }
