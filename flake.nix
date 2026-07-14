@@ -39,6 +39,13 @@
       ];
     in
     {
+      # Consumer-facing API: `nix-shebang.lib.{strip,parse,wrap,...}`
+      # (README / SPEC I.lib / ATTRIBUTION). System-independent -- pure lib.
+      lib = import ./nix/lib { inherit (nixpkgs) lib; };
+
+      # nix-unit test set: `nix-unit --flake .#tests` (see nix/tests.nix).
+      tests = import ./nix/tests.nix { inherit nixpkgs; };
+
       packages = forAllSystems (pkgs: {
         setting = (set-and-setting.lib.mkSetting { inherit pkgs; }).materialized;
       });
