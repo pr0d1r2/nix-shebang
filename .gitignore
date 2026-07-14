@@ -3,3 +3,6 @@ result
 result-*
 .claude/
 .setting
+.markdownlint.yml
+.yamllint.yml
+lefthook.yml
