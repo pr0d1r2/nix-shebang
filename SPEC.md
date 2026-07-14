@@ -111,3 +111,4 @@ in
 |----|----|------|
 | B1 | x | `stripStrict` crashed on single-line shebang (no newline after `#!`): `builtins.head` on empty list |
 | B2 | x | `isSh` and `isShellScript` missed `/usr/bin/sh` path (inconsistent with `isBash` which included `/usr/bin/bash`) |
+| B3 | x | set-and-setting migration was incomplete: `fragments` declared `[base nix]` but repo's `.md`/`.yml` files detect as `[base nix ascii markdown yaml]` (guardrails fidelity FAIL). Fix: declare all detected fragments; add `mat.packages` to the `confirm` app `runtimeInputs` (coherence: markdownlint/yamllint wrappers on PATH); seed the missing `config/lefthook/file_size_limits.yml` (file-size-check) and `.nix-embedded-shell-allowlist` = `flake.nix` (nix-no-embedded-shell allows the confirm app's embedded shell) |
