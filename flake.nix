@@ -30,6 +30,8 @@
       forAllSystems =
         f: nixpkgs.lib.genAttrs supportedSystems (system: f nixpkgs.legacyPackages.${system});
 
+      sas = set-and-setting.inputs.set-and-setting;
+
       fragments = [
         "base"
         "nix"
@@ -47,16 +49,16 @@
       tests = import ./nix/tests.nix { inherit nixpkgs; };
 
       packages = forAllSystems (pkgs: {
-        setting = (set-and-setting.lib.mkSetting { inherit pkgs; }).materialized;
+        setting = (sas.lib.mkSetting { inherit pkgs; }).materialized;
       });
 
       devShells = forAllSystems (
         pkgs:
         let
-          mat = set-and-setting.lib.materializationFor { inherit pkgs fragments; };
+          mat = sas.lib.materializationFor { inherit pkgs fragments; };
           sys = pkgs.stdenv.hostPlatform.system;
         in
-        set-and-setting.lib.mkDevShells {
+        sas.lib.mkDevShells {
           inherit pkgs;
           basePackages = mat.packages;
           defaultShellHook = ''
@@ -68,12 +70,12 @@
 
       checks = forAllSystems (
         pkgs:
-        (set-and-setting.lib.checksFor {
+        (sas.lib.checksFor {
           inherit pkgs fragments;
           src = ./.;
         })
         // {
-          dep-graph = set-and-setting.lib.mkDepGraphCheck {
+          dep-graph = sas.lib.mkDepGraphCheck {
             inherit pkgs;
             projectRoot = ./.;
           };
@@ -84,7 +86,7 @@
       apps = forAllSystems (
         pkgs:
         let
-          mat = set-and-setting.lib.materializationFor { inherit pkgs fragments; };
+          mat = sas.lib.materializationFor { inherit pkgs fragments; };
         in
         {
           confirm = {
