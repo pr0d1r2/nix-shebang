@@ -30,7 +30,7 @@
       forAllSystems =
         f: nixpkgs.lib.genAttrs supportedSystems (system: f nixpkgs.legacyPackages.${system});
 
-      sas = set-and-setting.inputs.set-and-setting;
+      sas = set-and-setting;
 
       fragments = [
         "base"
