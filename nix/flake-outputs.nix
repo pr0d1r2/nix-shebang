@@ -61,6 +61,34 @@ in
         inherit pkgs;
         projectRoot = ../.;
       };
+
+      # nix-unit assertion set as a `nix flake check` derivation (SPEC C3 /
+      # I.checks). Merges every `nix/tests/unit/*.nix` group into one flat
+      # set and runs `lib.runTests`, so a regression in strip/parse/wrap
+      # fails CI. New lib+test pairs are picked up automatically.
+      unit-tests =
+        let
+          cases = nixpkgs.lib.foldl' (a: b: a // b) { } (
+            builtins.attrValues (import ./tests.nix { inherit nixpkgs; })
+          );
+          failures = nixpkgs.lib.runTests cases;
+        in
+        pkgs.runCommand "unit-tests" { } (
+          if failures == [ ] then
+            ''
+              echo "nix-unit: ${toString (builtins.length (builtins.attrNames cases))} assertions passed"
+              touch "$out"
+            ''
+          else
+            ''
+              echo "nix-unit: ${toString (builtins.length failures)} assertion(s) failed:" >&2
+              ${nixpkgs.lib.concatMapStringsSep "\n" (
+                f: "echo ${nixpkgs.lib.escapeShellArg "  - ${f.name}"} >&2"
+              ) failures}
+              exit 1
+            ''
+        );
+
       default = pkgs.runCommand "checks" { } "touch $out";
     }
   );
