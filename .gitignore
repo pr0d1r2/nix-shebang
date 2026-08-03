@@ -5,3 +5,4 @@ result-*
 .setting
 .markdownlint.yml
 .yamllint.yml
+lefthook.yml
