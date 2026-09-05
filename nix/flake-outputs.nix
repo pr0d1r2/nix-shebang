@@ -2,6 +2,7 @@
   self,
   nixpkgs,
   set-and-setting,
+  ...
 }:
 
 let
@@ -120,6 +121,7 @@ in
               export SETTING_SRC="${self.packages.${pkgs.stdenv.hostPlatform.system}.setting}"
               export CONFIRM_SCRIPT="${set-and-setting}/lib/confirm.sh"
               export CONFIRM_REV="${set-and-setting.rev or "unknown"}"
+              cp -f "${mat.files}/lefthook.yml" lefthook.yml
               bash "$CONFIRM_SCRIPT"
             '';
           }
