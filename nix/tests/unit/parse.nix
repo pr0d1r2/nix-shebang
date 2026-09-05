@@ -13,6 +13,16 @@ in
     };
   };
 
+  testParseIgnoresRepeatedSpaces = {
+    expr = parse.parse "#!/usr/bin/env  bash\necho hello";
+    expected = {
+      interpreter = "/usr/bin/env";
+      args = [ "bash" ];
+      isEnv = true;
+      resolvedInterpreter = "bash";
+    };
+  };
+
   testParseExtractsDirectBashShebang = {
     expr = parse.parse "#!/bin/bash\necho hello";
     expected = {
