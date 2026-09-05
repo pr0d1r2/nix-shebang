@@ -10,6 +10,12 @@ follow semantic versioning.
 
 - `isSh` and `isShellScript` now recognize `/usr/bin/sh` (was missing
   while `isBash` already included `/usr/bin/bash`)
+- `lib` and `tests` are exposed again, and `nix flake check` runs the
+  `unit-tests` assertions again -- the set-and-setting migration had
+  replaced the outputs with a bare `mkConsumerFlake` call, which
+  publishes only the standard's outputs, so `nix-shebang.lib` failed to
+  evaluate for consumers
+- The flake description says what the flake is instead of `CHANGEME`
 
 ### Added
 

@@ -1,5 +1,5 @@
 {
-  description = "CHANGEME";
+  description = "Nix library for shebang operations -- strip, parse, wrap shell fragments into derivations";
 
   nixConfig = {
     extra-substituters = [ "https://pr0d1r2.cachix.org" ];
@@ -21,15 +21,5 @@
       set-and-setting,
       ...
     }:
-    set-and-setting.lib.mkConsumerFlake {
-      inherit self nixpkgs set-and-setting;
-      fragments = [
-        "base"
-        "nix"
-        "ascii"
-        "markdown"
-        "yaml"
-      ];
-      src = ./.;
-    };
+    import ./nix/outputs.nix { inherit self nixpkgs set-and-setting; };
 }
