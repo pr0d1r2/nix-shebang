@@ -53,6 +53,36 @@ in
     expected = "echo hello";
   };
 
+  testStripPreambleRemovesShebangCommentsAndSet = {
+    expr = strip.stripPreamble "#!/usr/bin/env bash\n# Header\n\nset -euo pipefail\necho hello\n";
+    expected = "echo hello\n";
+  };
+
+  testStripPreambleRemovesNonStandardSetFlags = {
+    expr = strip.stripPreamble "#!/bin/sh\nset -uo pipefail\necho hello";
+    expected = "echo hello";
+  };
+
+  testStripPreamblePreservesTextWithoutShebang = {
+    expr = strip.stripPreamble "# Header\necho hello";
+    expected = "# Header\necho hello";
+  };
+
+  testStripPreambleStopsAtFirstCodeLine = {
+    expr = strip.stripPreamble "#!/bin/sh\n# Header\necho hello\n# Body comment\n";
+    expected = "echo hello\n# Body comment\n";
+  };
+
+  testStripPreambleHandlesAllPreambleFile = {
+    expr = strip.stripPreamble "#!/bin/sh\n# Header\n\nset -u\n";
+    expected = "";
+  };
+
+  testReadWithoutPreambleMatchesStripPreamble = {
+    expr = strip.readWithoutPreamble ./preamble.sh;
+    expected = strip.stripPreamble (builtins.readFile ./preamble.sh);
+  };
+
   testHasReturnsTrueForShebangText = {
     expr = strip.has "#!/usr/bin/env bash\necho hello";
     expected = true;
