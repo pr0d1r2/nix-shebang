@@ -4,7 +4,9 @@ let
     line:
     let
       withoutPrefix = lib.removePrefix "#!" line;
-      parts = lib.splitString " " (lib.trim withoutPrefix);
+      # Shebangs commonly contain repeated whitespace; empty tokens must not
+      # become interpreter arguments (especially for `/usr/bin/env`).
+      parts = lib.filter (part: part != "") (lib.splitString " " (lib.trim withoutPrefix));
       interpreter = builtins.head parts;
       args = builtins.tail parts;
     in
