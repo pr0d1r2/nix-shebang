@@ -31,8 +31,10 @@ Pure Nix library for shebang operations -- strip, parse, wrap shell fragments in
 |----------|-----------|---------|
 | strip | string → string | Remove first line if shebang |
 | stripStrict | string → string | Remove shebang + `set -euo pipefail` |
+| stripPreamble | string → string | Remove shebang plus the leading comment, blank, and `set` block |
 | readWithout | path → string | readFile + strip |
 | readWithoutStrict | path → string | readFile + stripStrict |
+| readWithoutPreamble | path → string | readFile + stripPreamble |
 | has | string → bool | Does text start with `#!`? |
 | get | string → string\|null | Extract shebang line or null |
 
@@ -83,6 +85,7 @@ in
 - V3: `strip` is universal -- works with any shebang (bash, sh, python, perl, etc.)
 - V4: `strip` preserves text without shebang unchanged
 - V5: `stripStrict` only removes `set -euo pipefail` if it immediately follows shebang
+- V9: `stripPreamble` removes only the leading preamble block; the first line that is neither a comment, blank, nor `set` begins the body
 - V6: `readWithout` returns same as `strip (builtins.readFile path)`
 - V7: `parse` returns null for non-shebang text
 - V8: All tests use `test` prefix in attr names (nix-unit requirement)
@@ -91,11 +94,11 @@ in
 
 | id | st | desc | cites |
 |----|----|------|-------|
-| T1 | x | nix/lib/strip.nix: strip, stripStrict, readWithout, readWithoutStrict, has, get | C1,C9,V3,V4,V5 |
+| T1 | x | nix/lib/strip.nix: strip, stripStrict, stripPreamble, readWithout, readWithoutStrict, readWithoutPreamble, has, get | C1,C9,V3,V4,V5,V9 |
 | T2 | x | nix/lib/parse.nix: parse, isBash, isSh, isShellScript | C1,C9,V7 |
 | T3 | x | nix/lib/wrap.nix: toShellScript, toShellApplication, toTextFile | C1,I.lib |
 | T4 | x | nix/lib/default.nix: unified API entry point | I.lib |
-| T5 | x | nix/tests/unit/strip.nix: 14 tests | C3,C4,V1,V8 |
+| T5 | x | nix/tests/unit/strip.nix: 20 tests | C3,C4,V1,V8,V9 |
 | T6 | x | nix/tests/unit/parse.nix: 17 tests | C3,C4,V1,V8 |
 | T7 | x | nix/tests/unit/wrap.nix: 3 tests | C3,C4,V1,V8 |
 | T8 | x | flake.nix: lib output, checks, devShell, nixpkgs-lock | C2,C5,I.checks,I.dev |

@@ -53,6 +53,40 @@ in
     expected = "echo hello";
   };
 
+  testStripPreambleRemovesShebangCommentsAndSet = {
+    expr = strip.stripPreamble "#!/bin/sh\n# Header\n\nset -euo pipefail\necho hello\n";
+    expected = "echo hello\n";
+  };
+
+  testStripPreambleRemovesNonStandardSetFlags = {
+    expr = strip.stripPreamble "#!/bin/sh\nset -uo pipefail\necho hello";
+    expected = "echo hello";
+  };
+
+  testStripPreamblePreservesTextWithoutShebang = {
+    expr = strip.stripPreamble "# Header\necho hello";
+    expected = "# Header\necho hello";
+  };
+
+  testStripPreambleStopsAtFirstCodeLine = {
+    expr = strip.stripPreamble "#!/bin/sh\n# Header\necho hello\n# Keep this comment\n";
+    expected = "echo hello\n# Keep this comment\n";
+  };
+
+  testStripPreambleHandlesAllPreambleFile = {
+    expr = strip.stripPreamble "#!/bin/sh\n# Header\n\nset -uo pipefail\n";
+    expected = "";
+  };
+
+  testReadWithoutPreambleMatchesStripPreamble =
+    let
+      path = builtins.toFile "strip-preamble-test.sh" "#!/bin/sh\n# Header\nset -euo pipefail\necho hello\n";
+    in
+    {
+      expr = strip.readWithoutPreamble path;
+      expected = strip.stripPreamble (builtins.readFile path);
+    };
+
   testHasReturnsTrueForShebangText = {
     expr = strip.has "#!/usr/bin/env bash\necho hello";
     expected = true;
