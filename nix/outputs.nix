@@ -55,20 +55,10 @@ nixpkgs.lib.recursiveUpdate standard {
         cases = nixpkgs.lib.foldl' (a: b: a // b) { } (builtins.attrValues tests);
         failures = nixpkgs.lib.runTests cases;
       in
-      pkgs.runCommand "unit-tests" { } (
-        if failures == [ ] then
-          ''
-            echo "nix-unit: ${toString (builtins.length (builtins.attrNames cases))} assertions passed"
-            touch "$out"
-          ''
-        else
-          ''
-            echo "nix-unit: ${toString (builtins.length failures)} assertion(s) failed:" >&2
-            ${nixpkgs.lib.concatMapStringsSep "\n" (
-              f: "echo ${nixpkgs.lib.escapeShellArg "  - ${f.name}"} >&2"
-            ) failures}
-            exit 1
-          ''
-      );
+      pkgs.runCommand "unit-tests" {
+        NIX_UNIT_ASSERTION_COUNT = toString (builtins.length (builtins.attrNames cases));
+        NIX_UNIT_FAILURE_COUNT = toString (builtins.length failures);
+        NIX_UNIT_FAILURE_NAMES = nixpkgs.lib.concatStringsSep "\n" (map (f: f.name) failures);
+      } (builtins.readFile ../scripts/nix-unit-check.sh);
   });
 }
