@@ -18,6 +18,7 @@ let
           "get"
           "strip"
           "stripStrict"
+          "stripPreamble"
         ]
     ) (import ../vectors.nix)
   );
@@ -92,5 +93,35 @@ vectorTests
   testGetReturnsNullForNonShebangText = {
     expr = strip.get "echo hello";
     expected = null;
+  };
+
+  testStripPreambleRemovesShebangCommentsAndSet = {
+    expr = strip.stripPreamble "#!/usr/bin/env bash\n# header comment\n#\n# more comment\nset -euo pipefail\necho hello\n";
+    expected = "echo hello\n";
+  };
+
+  testStripPreambleRemovesNonStandardSetFlags = {
+    expr = strip.stripPreamble "#!/usr/bin/env bash\n# header\nset -uo pipefail\necho hello\n";
+    expected = "echo hello\n";
+  };
+
+  testStripPreamblePreservesTextWithoutShebang = {
+    expr = strip.stripPreamble "echo hello";
+    expected = "echo hello";
+  };
+
+  testStripPreambleStopsAtFirstCodeLine = {
+    expr = strip.stripPreamble "#!/usr/bin/env bash\n# header\necho hello\n# trailing comment\n";
+    expected = "echo hello\n# trailing comment\n";
+  };
+
+  testStripPreambleHandlesAllPreambleFile = {
+    expr = strip.stripPreamble "#!/usr/bin/env bash\n# just a comment\n";
+    expected = "";
+  };
+
+  testReadWithoutPreambleMatchesStripPreamble = {
+    expr = strip.readWithoutPreamble ./strip.nix == strip.stripPreamble (builtins.readFile ./strip.nix);
+    expected = true;
   };
 }
