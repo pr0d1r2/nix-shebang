@@ -18,7 +18,7 @@ Pure Nix library for shebang operations -- strip, parse, wrap shell fragments in
 
 ## S.I Interfaces
 
-- I.lib: `nix-shebang.lib` -- unified API: strip, readWithout, has, get, parse, isBash, isSh, isShellScript, toShellScript, toShellApplication, toTextFile
+- I.lib: `nix-shebang.lib` -- unified API: strip, stripPreamble, readWithout, readWithoutPreamble, has, get, parse, isBash, isSh, isShellScript, toShellScript, toShellApplication, toTextFile
 - I.flake-input: `inputs.nix-shebang.url = "github:pr0d1r2/nix-shebang"` -- one-liner wire
 - I.checks: `nix flake check` -- runs all nix-unit tests as derivation
 - I.dev: `nix develop` -- shell with nix-unit and nixfmt
@@ -32,8 +32,10 @@ Pure Nix library for shebang operations -- strip, parse, wrap shell fragments in
 |----------|-----------|---------|
 | strip | string → string | Remove first line if shebang |
 | stripStrict | string → string | Remove shebang + `set -euo pipefail` |
+| stripPreamble | string → string | Remove shebang + contiguous comment/blank/`set` block |
 | readWithout | path → string | readFile + strip |
 | readWithoutStrict | path → string | readFile + stripStrict |
+| readWithoutPreamble | path → string | readFile + stripPreamble |
 | has | string → bool | Does text start with `#!`? |
 | get | string → string\|null | Extract shebang line or null |
 
@@ -84,10 +86,11 @@ in
 - V3: `strip` is universal -- works with any shebang (bash, sh, python, perl, etc.)
 - V4: `strip` preserves text without shebang unchanged
 - V5: `stripStrict` only removes `set -euo pipefail` if it immediately follows shebang
+- V5a: `stripPreamble` removes the leading preamble block only -- the first line that is neither comment, blank, nor `set` begins the body
 - V6: `readWithout` returns same as `strip (builtins.readFile path)`
 - V7: `parse` returns null for non-shebang text
 - V8: All tests use `test` prefix in attr names (nix-unit requirement)
-- V9: Every row of `nix/tests/vectors.nix` is asserted for every text function (`has`, `get`, `strip`, `stripStrict`, `parse`, `isBash`, `isSh`, `isShellScript`) by the unit tests; a behaviour change updates its row in the same commit, so the exported vectors never disagree with `lib`
+- V9: Every row of `nix/tests/vectors.nix` is asserted for every text function (`has`, `get`, `strip`, `stripStrict`, `stripPreamble`, `parse`, `isBash`, `isSh`, `isShellScript`) by the unit tests; a behaviour change updates its row in the same commit, so the exported vectors never disagree with `lib`
 
 ## S.T Tasks
 
@@ -97,7 +100,7 @@ in
 | T2 | x | nix/lib/parse.nix: parse, isBash, isSh, isShellScript | C1,C9,V7 |
 | T3 | x | nix/lib/wrap.nix: toShellScript, toShellApplication, toTextFile | C1,I.lib |
 | T4 | x | nix/lib/default.nix: unified API entry point | I.lib |
-| T5 | x | nix/tests/unit/strip.nix: 14 tests | C3,C4,V1,V8 |
+| T5 | x | nix/tests/unit/strip.nix: 20 tests | C3,C4,V1,V8 |
 | T6 | x | nix/tests/unit/parse.nix: 17 tests | C3,C4,V1,V8 |
 | T7 | x | nix/tests/unit/wrap.nix: 3 tests | C3,C4,V1,V8 |
 | T8 | x | flake.nix: lib output, checks, devShell, nixpkgs-lock | C2,C5,I.checks,I.dev |

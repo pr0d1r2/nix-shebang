@@ -16,6 +16,7 @@
     get = "#!/usr/bin/env bash";
     strip = "echo hello\n";
     stripStrict = "echo hello\n";
+    stripPreamble = "echo hello\n";
     parse = {
       args = [ "bash" ];
       interpreter = "/usr/bin/env";
@@ -33,6 +34,7 @@
     get = "#!/usr/bin/env bash";
     strip = "set -euo pipefail\necho hello\n";
     stripStrict = "echo hello\n";
+    stripPreamble = "echo hello\n";
     parse = {
       args = [ "bash" ];
       interpreter = "/usr/bin/env";
@@ -50,6 +52,7 @@
     get = "#!/bin/bash";
     strip = "set -euo pipefail\n";
     stripStrict = "";
+    stripPreamble = "";
     parse = {
       args = [ ];
       interpreter = "/bin/bash";
@@ -67,6 +70,7 @@
     get = "#!/bin/sh";
     strip = "echo hello";
     stripStrict = "echo hello";
+    stripPreamble = "echo hello";
     parse = {
       args = [ ];
       interpreter = "/bin/sh";
@@ -84,6 +88,7 @@
     get = "#!/usr/bin/sh";
     strip = "echo hi\n";
     stripStrict = "echo hi\n";
+    stripPreamble = "echo hi\n";
     parse = {
       args = [ ];
       interpreter = "/usr/bin/sh";
@@ -101,6 +106,7 @@
     get = "#!/usr/bin/env python3";
     strip = "print('hi')";
     stripStrict = "print('hi')";
+    stripPreamble = "print('hi')";
     parse = {
       args = [ "python3" ];
       interpreter = "/usr/bin/env";
@@ -118,6 +124,7 @@
     get = "#!/usr/bin/awk -f";
     strip = "{ print $1 }\n";
     stripStrict = "{ print $1 }\n";
+    stripPreamble = "{ print $1 }\n";
     parse = {
       args = [ "-f" ];
       interpreter = "/usr/bin/awk";
@@ -135,6 +142,7 @@
     get = "#!/usr/bin/env -S jq -f";
     strip = ".foo\n";
     stripStrict = ".foo\n";
+    stripPreamble = ".foo\n";
     parse = {
       args = [
         "-S"
@@ -156,6 +164,7 @@
     get = "#!/bin/bash";
     strip = "";
     stripStrict = "";
+    stripPreamble = "";
     parse = {
       args = [ ];
       interpreter = "/bin/bash";
@@ -173,6 +182,7 @@
     get = "#!/bin/bash";
     strip = "echo a\nset -euo pipefail\n";
     stripStrict = "echo a\nset -euo pipefail\n";
+    stripPreamble = "echo a\nset -euo pipefail\n";
     parse = {
       args = [ ];
       interpreter = "/bin/bash";
@@ -190,6 +200,7 @@
     get = "#!/bin/bash";
     strip = "set -eu\necho x\n";
     stripStrict = "set -eu\necho x\n";
+    stripPreamble = "echo x\n";
     parse = {
       args = [ ];
       interpreter = "/bin/bash";
@@ -207,6 +218,7 @@
     get = null;
     strip = "echo hello";
     stripStrict = "echo hello";
+    stripPreamble = "echo hello";
     parse = null;
     isBash = false;
     isSh = false;
@@ -219,6 +231,7 @@
     get = null;
     strip = "";
     stripStrict = "";
+    stripPreamble = "";
     parse = null;
     isBash = false;
     isSh = false;

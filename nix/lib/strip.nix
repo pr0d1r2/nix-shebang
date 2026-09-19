@@ -23,11 +23,24 @@ let
           lib.concatStringsSep "\n" (builtins.tail lines);
     in
     if lib.hasPrefix "#!" first then afterShebang else text;
+
+  stripPreamble =
+    text:
+    let
+      lines = lib.splitString "\n" text;
+      isPreamble = l: l == "" || lib.hasPrefix "#" l || lib.hasPrefix "set -" l;
+      body = lib.lists.findFirstIndex (l: !isPreamble l) (lib.length lines) lines;
+    in
+    if lib.hasPrefix "#!" (builtins.head lines) then
+      lib.concatStringsSep "\n" (lib.drop body lines)
+    else
+      text;
 in
 {
-  inherit strip stripStrict;
+  inherit strip stripStrict stripPreamble;
   readWithout = path: strip (builtins.readFile path);
   readWithoutStrict = path: stripStrict (builtins.readFile path);
+  readWithoutPreamble = path: stripPreamble (builtins.readFile path);
   has = text: lib.hasPrefix "#!" text;
   get =
     text:
