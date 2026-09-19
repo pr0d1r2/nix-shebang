@@ -75,6 +75,21 @@ in
 | `toShellApplication` | `{ pkgs, name, src, meta? }` → derivation | → `writeShellApplication` (strips shebang + set flags) |
 | `toTextFile` | `{ pkgs, name, src }` → derivation | → `writeTextFile` (preserves shebang) |
 
+## Test vectors
+
+`nix-shebang.vectors` is the library's behaviour as data: one row per input,
+with the expected result of `has`, `get`, `strip`, `stripStrict`, `parse`,
+`isBash`, `isSh` and `isShellScript`. The unit tests assert every row, so the
+vectors cannot drift from `lib`. A port in another language can check
+identical behaviour against them:
+
+```bash
+nix eval --json github:pr0d1r2/nix-shebang#vectors
+```
+
+Rows pin current behaviour, limits included: `envSplitString` records that
+`parse` does not understand `env -S`.
+
 ## Development
 
 ```bash

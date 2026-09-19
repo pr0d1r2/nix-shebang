@@ -22,6 +22,7 @@ Pure Nix library for shebang operations -- strip, parse, wrap shell fragments in
 - I.flake-input: `inputs.nix-shebang.url = "github:pr0d1r2/nix-shebang"` -- one-liner wire
 - I.checks: `nix flake check` -- runs all nix-unit tests as derivation
 - I.dev: `nix develop` -- shell with nix-unit and nixfmt
+- I.vectors: `nix-shebang.vectors` -- shared test vectors (`nix/tests/vectors.nix`): per input, the expected result of every text function; `nix eval --json github:pr0d1r2/nix-shebang#vectors` for ports in other languages
 
 ## S.A API
 
@@ -86,6 +87,7 @@ in
 - V6: `readWithout` returns same as `strip (builtins.readFile path)`
 - V7: `parse` returns null for non-shebang text
 - V8: All tests use `test` prefix in attr names (nix-unit requirement)
+- V9: Every row of `nix/tests/vectors.nix` is asserted for every text function (`has`, `get`, `strip`, `stripStrict`, `parse`, `isBash`, `isSh`, `isShellScript`) by the unit tests; a behaviour change updates its row in the same commit, so the exported vectors never disagree with `lib`
 
 ## S.T Tasks
 
@@ -104,6 +106,7 @@ in
 | T11 | . | Protect main branch, require PRs | |
 | T12 | . | Wire into nix-config as flake input | I.flake-input |
 | T13 | . | Add update-pins.yml cron workflow | |
+| T14 | x | nix/tests/vectors.nix: 13 shared vectors, asserted per text function, exported as `vectors` | I.vectors,V9 |
 
 ## S.B Bugs
 

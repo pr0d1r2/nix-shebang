@@ -1,8 +1,29 @@
 { lib }:
 let
   strip = import ../../lib/strip.nix { inherit lib; };
+  # One test per shared vector per function (tests/vectors.nix).
+  vectorTests = builtins.listToAttrs (
+    lib.concatMap (
+      v:
+      map
+        (fn: {
+          name = "testVector_${v.name}_${fn}";
+          value = {
+            expr = strip.${fn} v.input;
+            expected = v.${fn};
+          };
+        })
+        [
+          "has"
+          "get"
+          "strip"
+          "stripStrict"
+        ]
+    ) (import ../vectors.nix)
+  );
 in
-{
+vectorTests
+// {
   testStripRemovesBashShebang = {
     expr = strip.strip "#!/usr/bin/env bash\necho hello\n";
     expected = "echo hello\n";
