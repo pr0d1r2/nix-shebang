@@ -46,6 +46,10 @@ nixpkgs.lib.recursiveUpdate standard {
   # nix-unit test set: `nix-unit --flake .#tests` (see nix/tests.nix).
   inherit tests;
 
+  # Shared test vectors (tests/vectors.nix): every text function's expected
+  # result per input, as data -- `nix eval --json .#vectors` for a port.
+  vectors = import ./tests/vectors.nix;
+
   checks = forAllSystems (pkgs: {
     # nix-unit assertion set as a `nix flake check` derivation (SPEC C3 /
     # I.checks). Merges every `nix/tests/unit/*.nix` group into one flat

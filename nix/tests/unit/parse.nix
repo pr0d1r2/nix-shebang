@@ -1,8 +1,29 @@
 { lib }:
 let
   parse = import ../../lib/parse.nix { inherit lib; };
+  # One test per shared vector per function (tests/vectors.nix).
+  vectorTests = builtins.listToAttrs (
+    lib.concatMap (
+      v:
+      map
+        (fn: {
+          name = "testVector_${v.name}_${fn}";
+          value = {
+            expr = parse.${fn} v.input;
+            expected = v.${fn};
+          };
+        })
+        [
+          "parse"
+          "isBash"
+          "isSh"
+          "isShellScript"
+        ]
+    ) (import ../vectors.nix)
+  );
 in
-{
+vectorTests
+// {
   testParseExtractsEnvBashShebang = {
     expr = parse.parse "#!/usr/bin/env bash\necho hello";
     expected = {

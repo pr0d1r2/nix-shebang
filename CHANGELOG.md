@@ -23,6 +23,9 @@ follow semantic versioning.
 
 ### Added
 
+- `vectors` -- 13 shared test vectors (`nix/tests/vectors.nix`), each
+  asserted for every text function and exported for ports in other
+  languages (`nix eval --json .#vectors`)
 - `strip`, `stripStrict`, `readWithout`, `readWithoutStrict`, `has`,
   `get` -- strip and extract shebang lines
 - `parse`, `isBash`, `isSh`, `isShellScript` -- parse a shebang into its
