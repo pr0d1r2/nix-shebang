@@ -16,6 +16,10 @@ follow semantic versioning.
   publishes only the standard's outputs, so `nix-shebang.lib` failed to
   evaluate for consumers
 - The flake description says what the flake is instead of `CHANGEME`
+- `lib`, `tests` and the `unit-tests` check are restored a second time:
+  the 2026-09-07 migration run regenerated `flake.nix` from the template
+  again and dropped the `nix/outputs.nix` import (B10). The `actions`
+  fragment it added is kept, now declared in `nix/outputs.nix`
 
 ### Added
 

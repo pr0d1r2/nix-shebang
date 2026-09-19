@@ -16,6 +16,7 @@ let
 
   fragments = [
     "base"
+    "actions"
     "nix"
     "ascii"
     "markdown"
@@ -54,21 +55,17 @@ nixpkgs.lib.recursiveUpdate standard {
       let
         cases = nixpkgs.lib.foldl' (a: b: a // b) { } (builtins.attrValues tests);
         failures = nixpkgs.lib.runTests cases;
+        passed = toString (builtins.length (builtins.attrNames cases));
       in
-      pkgs.runCommand "unit-tests" { } (
-        if failures == [ ] then
-          ''
-            echo "nix-unit: ${toString (builtins.length (builtins.attrNames cases))} assertions passed"
-            touch "$out"
-          ''
-        else
-          ''
-            echo "nix-unit: ${toString (builtins.length failures)} assertion(s) failed:" >&2
-            ${nixpkgs.lib.concatMapStringsSep "\n" (
-              f: "echo ${nixpkgs.lib.escapeShellArg "  - ${f.name}"} >&2"
-            ) failures}
-            exit 1
-          ''
-      );
+      # Decided at evaluation time, so no shell is embedded here (the
+      # nix-no-embedded-shell guard): a pass builds a marker whose name
+      # carries the assertion count; a failure refuses to evaluate and names
+      # every failing test.
+      if failures == [ ] then
+        pkgs.runCommand "unit-tests-${passed}-assertions-passed" { } "touch $out"
+      else
+        throw "nix-unit: ${toString (builtins.length failures)} assertion(s) failed:\n${
+          nixpkgs.lib.concatMapStringsSep "\n" (f: "  - ${f.name}") failures
+        }";
   });
 }
