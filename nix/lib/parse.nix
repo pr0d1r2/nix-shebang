@@ -23,8 +23,7 @@ let
       {
         inherit interpreter args;
         isEnv = interpreter == "/usr/bin/env";
-        resolvedInterpreter =
-          if interpreter == "/usr/bin/env" then envResolvedInterpreter else interpreter;
+        resolvedInterpreter = if interpreter == "/usr/bin/env" then envResolvedInterpreter else interpreter;
       }
     else
       null;
