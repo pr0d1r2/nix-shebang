@@ -64,6 +64,36 @@ vectorTests
     };
   };
 
+  testParseResolvesEnvSplitString = {
+    expr = parse.parse "#!/usr/bin/env -S bash -eu\necho hello";
+    expected = {
+      interpreter = "/usr/bin/env";
+      args = [ "-S" "bash" "-eu" ];
+      isEnv = true;
+      resolvedInterpreter = "bash";
+    };
+  };
+
+  testParseResolvesFusedEnvSplitString = {
+    expr = parse.parse "#!/usr/bin/env -Sbash -eu\necho hello";
+    expected = {
+      interpreter = "/usr/bin/env";
+      args = [ "-Sbash" "-eu" ];
+      isEnv = true;
+      resolvedInterpreter = "bash";
+    };
+  };
+
+  testParseResolvesLongEnvSplitString = {
+    expr = parse.parse "#!/usr/bin/env --split-string awk -f\n{ print $1 }";
+    expected = {
+      interpreter = "/usr/bin/env";
+      args = [ "--split-string" "awk" "-f" ];
+      isEnv = true;
+      resolvedInterpreter = "awk";
+    };
+  };
+
   testParseReturnsNullForNonShebang = {
     expr = parse.parse "echo hello";
     expected = null;
