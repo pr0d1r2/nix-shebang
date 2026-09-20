@@ -8,7 +8,7 @@
 
 [![CI](https://github.com/pr0d1r2/nix-shebang/actions/workflows/ci.yml/badge.svg)](https://github.com/pr0d1r2/nix-shebang/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![NixOS 25.11](https://img.shields.io/badge/NixOS-25.11-blue.svg?logo=nixos)](https://nixos.org)
+[![NixOS 26.05](https://img.shields.io/badge/NixOS-26.05-blue.svg?logo=nixos)](https://nixos.org)
 
 Pure Nix library for shebang operations — strip, parse, and wrap shell
 fragments into derivations. Write shell scripts as standalone, testable files,
