@@ -93,8 +93,9 @@ identical behaviour against them:
 nix eval --json github:pr0d1r2/nix-shebang#vectors
 ```
 
-Rows pin current behaviour, limits included: `envSplitString` records that
-`parse` does not understand `env -S`.
+Rows pin current behaviour, limits included. For `env -S` and
+`env --split-string` shebangs, `parse` resolves the
+interpreter from the split string while preserving the original arguments.
 
 ## Development
 
