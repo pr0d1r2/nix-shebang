@@ -5,9 +5,8 @@
 #
 #   nix eval --json github:pr0d1r2/nix-shebang#vectors
 #
-# A row PINS current behaviour, limits included -- `envSplitString` records
-# that `parse` does not understand `env -S`. Changing behaviour means changing
-# the row in the same commit.
+# A row PINS current behaviour, limits included. Changing behaviour means
+# changing the row in the same commit.
 [
   {
     name = "envBash";
@@ -151,7 +150,7 @@
       ];
       interpreter = "/usr/bin/env";
       isEnv = true;
-      resolvedInterpreter = "-S";
+      resolvedInterpreter = "jq";
     };
     isBash = false;
     isSh = false;
