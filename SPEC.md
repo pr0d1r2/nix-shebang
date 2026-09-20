@@ -105,7 +105,7 @@ in
 | T7 | x | nix/tests/unit/wrap.nix: 3 tests | C3,C4,V1,V8 |
 | T8 | x | flake.nix: lib output, checks, devShell, nixpkgs-lock | C2,C5,I.checks,I.dev |
 | T9 | x | CI: GitHub Actions matrix (linux, linux-arm, macos) + cachix | C5,C6 |
-| T10 | . | Create GitHub repo (pr0d1r2/nix-shebang) | C7 |
+| T10 | x | Create GitHub repo (pr0d1r2/nix-shebang) | C7 |
 | T11 | . | Protect main branch, require PRs | |
 | T12 | . | Wire into nix-config as flake input | I.flake-input |
 | T13 | . | Add update-pins.yml cron workflow | |
