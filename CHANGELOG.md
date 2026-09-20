@@ -6,6 +6,12 @@ follow semantic versioning.
 
 ## Unreleased
 
+### Changed
+
+- Nixpkgs pin moved from `nixos-25.11` to `nixos-26.05` via
+  `nixpkgs-lock` -- the `follows` declaration now takes effect and the
+  README badge matches the lock
+
 ### Fixed
 
 - `isSh` and `isShellScript` now recognize `/usr/bin/sh` (was missing
