@@ -51,6 +51,19 @@ nixpkgs.lib.recursiveUpdate standard {
   vectors = import ./tests/vectors.nix;
 
   checks = forAllSystems (pkgs: {
+    pin-badge =
+      let
+        lock = builtins.fromJSON (builtins.readFile ../flake.lock);
+        ref = lock.nodes.nixpkgs.original.ref;
+        version = nixpkgs.lib.removePrefix "nixos-" ref;
+        readme = builtins.readFile ../README.md;
+        badgeUrl = "NixOS-${version}";
+      in
+      if nixpkgs.lib.hasInfix badgeUrl readme then
+        pkgs.runCommand "pin-badge-ok" { } "touch $out"
+      else
+        throw "pin-badge: README badge does not match flake.lock -- expected '${badgeUrl}' in README";
+
     # nix-unit assertion set as a `nix flake check` derivation (SPEC C3 /
     # I.checks). Merges every `nix/tests/unit/*.nix` group into one flat
     # set and runs `lib.runTests`, so a regression in strip/parse/wrap

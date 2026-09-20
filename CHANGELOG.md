@@ -12,6 +12,11 @@ follow semantic versioning.
   `nixpkgs-lock` -- the `follows` declaration now takes effect and the
   README badge matches the lock
 
+### Added
+
+- `pin-badge` flake check that derives the expected NixOS badge text
+  from `flake.lock` and fails CI when the README badge disagrees
+
 ### Fixed
 
 - `isSh` and `isShellScript` now recognize `/usr/bin/sh` (was missing
