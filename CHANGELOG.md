@@ -16,6 +16,18 @@ follow semantic versioning.
 
 - `pin-badge` flake check that derives the expected NixOS badge text
   from `flake.lock` and fails CI when the README badge disagrees
+- `vectors` -- 13 shared test vectors (`nix/tests/vectors.nix`), each
+  asserted for every text function and exported for ports in other
+  languages (`nix eval --json .#vectors`)
+- `strip`, `stripStrict`, `readWithout`, `readWithoutStrict`, `has`,
+  `get` -- strip and extract shebang lines
+- `parse`, `isBash`, `isSh`, `isShellScript` -- parse a shebang into its
+  interpreter and arguments
+- `toShellScript`, `toShellApplication`, `toTextFile` -- wrap shell
+  fragments into derivations
+- nix-unit test suite with 1-to-1 coverage, wired into `nix flake check`
+- Engineering skills and project standards sourced from set-and-setting
+  via gitignored out-links
 
 ### Fixed
 
@@ -31,18 +43,3 @@ follow semantic versioning.
   the 2026-09-07 migration run regenerated `flake.nix` from the template
   again and dropped the `nix/outputs.nix` import (B10). The `actions`
   fragment it added is kept, now declared in `nix/outputs.nix`
-
-### Added
-
-- `vectors` -- 13 shared test vectors (`nix/tests/vectors.nix`), each
-  asserted for every text function and exported for ports in other
-  languages (`nix eval --json .#vectors`)
-- `strip`, `stripStrict`, `readWithout`, `readWithoutStrict`, `has`,
-  `get` -- strip and extract shebang lines
-- `parse`, `isBash`, `isSh`, `isShellScript` -- parse a shebang into its
-  interpreter and arguments
-- `toShellScript`, `toShellApplication`, `toTextFile` -- wrap shell
-  fragments into derivations
-- nix-unit test suite with 1-to-1 coverage, wired into `nix flake check`
-- Engineering skills and project standards sourced from set-and-setting
-  via gitignored out-links
