@@ -108,7 +108,7 @@ in
 | T10 | x | Create GitHub repo (pr0d1r2/nix-shebang) | C7 |
 | T11 | x | Protect main branch, require PRs | |
 | T12 | x | Wire into nix-config as flake input | I.flake-input |
-| T13 | . | Add update-pins.yml cron workflow | |
+| T13 | x | Add update-pins.yml cron workflow | |
 | T14 | x | nix/tests/vectors.nix: 13 shared vectors, asserted per text function, exported as `vectors` | I.vectors,V9 |
 
 ## S.B Bugs
