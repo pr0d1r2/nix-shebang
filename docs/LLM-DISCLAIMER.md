@@ -1,5 +1,22 @@
 # LLM-Generated Code Disclaimer
 
+<!-- hallucinogen:tending-disclaimer start -->
+**Also tended by an autonomous loop.** This repository is now maintained by an
+autonomous loop that opens pull requests, drives them to green CI, and merges
+them without a human reading the diff. The merge gate is this repository's own
+checks plus an automated review, not human approval.
+
+Some classes of change are held for a human by design: releases, anything
+touching the loop's own safety rails, and anything that could publish to a
+package registry. Everything else is not.
+
+Both disclosures apply. The text below records how this codebase was originally
+written with LLM assistance; any statement in it about human review describes
+that period, not the autonomous tending that followed.
+
+---
+<!-- hallucinogen:tending-disclaimer end -->
+
 This project contains code that was generated, reviewed, and validated by Large Language Models (LLMs) as part of the development process.
 
 ## Scope
