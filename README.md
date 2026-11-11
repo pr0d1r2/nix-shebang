@@ -1,14 +1,15 @@
 # nix-shebang
 
+<!-- no architecture diagram -->
+<!-- no development architecture diagram -->
+
 <!-- hallucinogen:autonomy-disclaimer start -->
 > Read [LLM-DISCLAIMER](docs/LLM-DISCLAIMER.md) first. This repository is
 > tended by an autonomous loop, and that file says what the loop may do here,
 > what it may not, and what to check before trusting anything in this tree.
 <!-- hallucinogen:autonomy-disclaimer end -->
 
-[![CI](https://github.com/pr0d1r2/nix-shebang/actions/workflows/ci.yml/badge.svg)](https://github.com/pr0d1r2/nix-shebang/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![NixOS 26.05](https://img.shields.io/badge/NixOS-26.05-blue.svg?logo=nixos)](https://nixos.org)
+[![CI](https://github.com/pr0d1r2/nix-shebang/actions/workflows/ci.yml/badge.svg)](https://github.com/pr0d1r2/nix-shebang/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![NixOS 26.05](https://img.shields.io/badge/NixOS-26.05-blue.svg?logo=nixos)](https://nixos.org)
 
 Pure Nix library for shebang operations — strip, parse, and wrap shell
 fragments into derivations. Write shell scripts as standalone, testable files,
