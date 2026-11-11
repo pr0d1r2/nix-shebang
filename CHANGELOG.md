@@ -8,6 +8,9 @@ follow semantic versioning.
 
 ### Changed
 
+- `flake.lock` bumped `nixpkgs-lock` so nixpkgs ships brotli 1.2.1
+  (CVE-2026-111497); ruby CVE-2026-97229 still awaits the
+  nixpkgs-lock#94 backport (nixos-26.05 has ruby 3.4.11)
 - Nixpkgs pin moved from `nixos-25.11` to `nixos-26.05` via
   `nixpkgs-lock` -- the `follows` declaration now takes effect and the
   README badge matches the lock
